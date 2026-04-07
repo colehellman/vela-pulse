@@ -1,0 +1,35 @@
+# Local env
+.env.local
+secrets/
+*.p8
+
+# Go
+gateway/bin/
+gateway/vendor/
+*.test
+*.out
+
+# Python
+scraper/.venv/
+scraper/__pycache__/
+scraper/**/__pycache__/
+*.pyc
+.ruff_cache/
+
+# Xcode / iOS
+ios/DerivedData/
+ios/**/*.xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Terraform
+infra/terraform/terraform.tfvars
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.backup
+infra/terraform/.terraform.lock.hcl
+
+# direnv
+.direnv/

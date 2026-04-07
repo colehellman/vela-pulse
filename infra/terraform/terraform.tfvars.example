@@ -1,0 +1,14 @@
+# Copy to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored.
+
+tenancy_ocid     = "ocid1.tenancy.oc1..example"
+user_ocid        = "ocid1.user.oc1..example"
+fingerprint      = "aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99"
+private_key_path = "~/.oci/oci_api_key.pem"
+region           = "us-ashburn-1"
+compartment_ocid = "ocid1.compartment.oc1..example"
+ssh_public_key   = "ssh-ed25519 AAAA... your-key"
+
+# ARM free tier: 2 OCPUs / 12 GB (max 4 OCPUs / 24 GB across all A1 instances)
+instance_ocpus     = 2
+instance_memory_gb = 12
