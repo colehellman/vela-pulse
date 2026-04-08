@@ -27,6 +27,7 @@ final class APIClient {
 
     struct ArticleDTO: Decodable {
         let id: String
+        let contentHash: String
         let title: String
         let canonicalURL: String
         let sourceDomain: String
@@ -35,6 +36,7 @@ final class APIClient {
 
         enum CodingKeys: String, CodingKey {
             case id, title
+            case contentHash   = "content_hash"
             case canonicalURL  = "canonical_url"
             case sourceDomain  = "source_domain"
             case publishedAt   = "published_at"
