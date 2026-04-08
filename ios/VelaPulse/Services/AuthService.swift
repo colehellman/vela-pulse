@@ -3,10 +3,12 @@ import Foundation
 import SwiftData
 
 /// Manages Sign In With Apple flow and internal JWT lifecycle.
+/// The JWT is stored in the Keychain (KeychainService), not SwiftData.
 @MainActor
 final class AuthService: NSObject, ObservableObject {
     @Published var currentUserID: String?
     @Published var isSignedIn: Bool = false
+    @Published var error: String?
 
     private let api: APIClient
     private let modelContext: ModelContext
@@ -21,16 +23,16 @@ final class AuthService: NSObject, ObservableObject {
     // MARK: - Sign In With Apple
 
     func signIn() {
+        error = nil
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.email]
-
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.performRequests()
     }
 
     func signOut() {
-        // Delete stored User model.
+        KeychainService.delete()
         do {
             let users = try modelContext.fetch(FetchDescriptor<User>())
             users.forEach { modelContext.delete($0) }
@@ -45,10 +47,10 @@ final class AuthService: NSObject, ObservableObject {
 
     private func restoreSession() {
         guard
-            let user = (try? modelContext.fetch(FetchDescriptor<User>()))?.first,
-            user.isTokenValid
+            let token = KeychainService.load(),
+            let user = (try? modelContext.fetch(FetchDescriptor<User>()))?.first
         else { return }
-        api.authToken = user.token
+        api.authToken = token
         currentUserID = user.id
         isSignedIn = true
     }
@@ -65,24 +67,29 @@ extension AuthService: ASAuthorizationControllerDelegate {
             let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
             let tokenData = credential.identityToken,
             let idToken = String(data: tokenData, encoding: .utf8)
-        else { return }
+        else {
+            Task { @MainActor in self.error = "Could not read Apple credential." }
+            return
+        }
 
         Task { @MainActor in
             do {
                 let resp = try await api.signInWithApple(idToken: idToken)
+
+                // Store JWT in Keychain — never in SwiftData/SQLite.
+                KeychainService.save(resp.token)
                 api.authToken = resp.token
 
-                // Persist the user session.
-                let expiry = Date().addingTimeInterval(30 * 24 * 3600)
-                let user = User(id: resp.userId, token: resp.token, tokenExpiresAt: expiry)
-                modelContext.insert(user)
+                // Persist only the stable user ID in SwiftData.
+                let users = try modelContext.fetch(FetchDescriptor<User>())
+                users.forEach { modelContext.delete($0) }
+                modelContext.insert(User(id: resp.userId))
                 try modelContext.save()
 
                 currentUserID = resp.userId
                 isSignedIn = true
             } catch {
-                // Surface error in production; log here for now.
-                print("SIWA exchange failed: \(error)")
+                self.error = "Sign in failed. Please try again."
             }
         }
     }
@@ -91,6 +98,9 @@ extension AuthService: ASAuthorizationControllerDelegate {
         controller: ASAuthorizationController,
         didCompleteWithError error: Error
     ) {
-        print("SIWA failed: \(error)")
+        // ASAuthorizationError.canceled (code 1001) is user-initiated — don't show an alert.
+        let asError = error as? ASAuthorizationError
+        guard asError?.code != .canceled else { return }
+        Task { @MainActor in self.error = "Sign in failed. Please try again." }
     }
 }

@@ -36,7 +36,8 @@ var (
 	jwksTTL     = 24 * time.Hour
 )
 
-const appleJWKSURL = "https://appleid.apple.com/auth/keys"
+// appleJWKSURL is a var so tests can point it at a local httptest.Server.
+var appleJWKSURL = "https://appleid.apple.com/auth/keys"
 
 // VerifyAppleToken validates an Apple id_token and returns the stable claims.
 // It fetches Apple's JWKS on first call (or after TTL) and caches the keys.

@@ -85,13 +85,19 @@ final class FeedService: ObservableObject {
     private func upsert(dtos: [APIClient.ArticleDTO]) throws -> [Article] {
         var result: [Article] = []
         for dto in dtos {
-            let existing = try modelContext.fetch(
-                FetchDescriptor<Article>(
-                    predicate: #Predicate {
-                        $0.contentHash == dto.contentHash || $0.id == dto.id
-                    }
-                )
+            // #Predicate requires local let bindings for captured values (not struct properties).
+            // Two sequential fetches because SwiftData #Predicate does not support ||.
+            let hash = dto.contentHash
+            let articleID = dto.id
+            let existingByHash = try modelContext.fetch(
+                FetchDescriptor<Article>(predicate: #Predicate { $0.contentHash == hash })
             ).first
+            var existing: Article? = existingByHash
+            if existing == nil {
+                existing = try modelContext.fetch(
+                    FetchDescriptor<Article>(predicate: #Predicate { $0.id == articleID })
+                ).first
+            }
 
             if let existing {
                 existing.contentHash = dto.contentHash
