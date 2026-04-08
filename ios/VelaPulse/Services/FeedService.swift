@@ -40,7 +40,7 @@ final class FeedService: ObservableObject {
 
         do {
             let resp = try await api.fetchFeed(limit: 20)
-            let fetched = upsert(dtos: resp.articles)
+            let fetched = try upsert(dtos: resp.articles)
             currentSnapshotID = resp.snapshotId
             nextCursor = resp.nextCursor
             hasMore = resp.nextCursor != nil
@@ -63,7 +63,7 @@ final class FeedService: ObservableObject {
         isLoading = true
         do {
             let resp = try await api.fetchFeedPage(snapshotID: snapID, cursor: cursor, limit: 20)
-            let fetched = upsert(dtos: resp.articles)
+            let fetched = try upsert(dtos: resp.articles)
             nextCursor = resp.nextCursor
             hasMore = resp.nextCursor != nil
             // Don't update freeze window on subsequent pages.
@@ -81,21 +81,25 @@ final class FeedService: ObservableObject {
 
     /// Upserts DTOs into SwiftData by contentHash. Returns the upserted Article objects.
     @discardableResult
-    private func upsert(dtos: [APIClient.ArticleDTO]) -> [Article] {
+    private func upsert(dtos: [APIClient.ArticleDTO]) throws -> [Article] {
         var result: [Article] = []
         for dto in dtos {
-            let existing = (try? modelContext.fetch(
-                FetchDescriptor<Article>(predicate: #Predicate { $0.contentHash == dto.canonicalURL })
-            ))?.first
+            let existing = try modelContext.fetch(
+                FetchDescriptor<Article>(predicate: #Predicate { $0.contentHash == dto.contentHash })
+            ).first
 
             if let existing {
+                existing.title = dto.title
+                existing.canonicalURL = dto.canonicalURL
+                existing.sourceDomain = dto.sourceDomain
+                existing.publishedAt = dto.publishedAt
                 existing.pulseScore = dto.pulseScore
                 existing.syncedAt = .now
                 result.append(existing)
             } else {
                 let article = Article(
                     id: dto.id,
-                    contentHash: dto.id, // gateway guarantees id == contentHashToUUID
+                    contentHash: dto.contentHash,
                     title: dto.title,
                     canonicalURL: dto.canonicalURL,
                     sourceDomain: dto.sourceDomain,
@@ -106,7 +110,7 @@ final class FeedService: ObservableObject {
                 result.append(article)
             }
         }
-        try? modelContext.save()
+        try modelContext.save()
         return result
     }
 }

@@ -1,35 +1,56 @@
-# Local env
+# Local environment and secrets
+.env
 .env.local
+.env.*
+!.env.example
 secrets/
 *.p8
+.direnv/
+.serena/
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/
 
 # Go
 gateway/bin/
 gateway/vendor/
 *.test
-*.out
+coverage.out
+*.coverprofile
 
 # Python
+.venv/
+venv/
 scraper/.venv/
-scraper/__pycache__/
-scraper/**/__pycache__/
-*.pyc
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
 .ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
 
-# Xcode / iOS
+# iOS / Xcode / SwiftPM
 ios/DerivedData/
 ios/**/*.xcuserdata/
-ios/*.xcodeproj/project.xcworkspace/xcuserdata/
-
-# macOS
-.DS_Store
+ios/**/*.xcuserstate
+ios/.build/
+ios/.swiftpm/
 
 # Terraform
 infra/terraform/terraform.tfvars
 infra/terraform/.terraform/
 infra/terraform/*.tfstate
-infra/terraform/*.tfstate.backup
+infra/terraform/*.tfstate.*
+infra/terraform/crash.log
+infra/terraform/override.tf
+infra/terraform/override.tf.json
+infra/terraform/*_override.tf
+infra/terraform/*_override.tf.json
 infra/terraform/.terraform.lock.hcl
-
-# direnv
-.direnv/
