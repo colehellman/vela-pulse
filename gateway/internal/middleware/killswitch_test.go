@@ -7,6 +7,7 @@ import (
 )
 
 // stubKillChecker lets tests control IsKilled() without a real Redis connection.
+// It satisfies the KillChecker interface.
 type stubKillChecker struct{ killed bool }
 
 func (s *stubKillChecker) IsKilled() bool { return s.killed }

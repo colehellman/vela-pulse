@@ -32,12 +32,22 @@ final class AuthService: NSObject, ObservableObject {
     }
 
     func signOut() {
-        KeychainService.delete()
+        do {
+            try KeychainService.delete()
+        } catch {
+            // JWT deletion failed — session may persist on next launch.
+            // Surface to user so they know to restart the app.
+            self.error = "Sign out may be incomplete. Please restart the app."
+        }
         do {
             let users = try modelContext.fetch(FetchDescriptor<User>())
             users.forEach { modelContext.delete($0) }
             try modelContext.save()
-        } catch {}
+        } catch {
+            // SwiftData cleanup failed. JWT is gone so the user is signed out,
+            // but the local User record may linger until next launch.
+            self.error = "Sign out completed but local data could not be cleared. Restart the app if issues persist."
+        }
         api.authToken = nil
         currentUserID = nil
         isSignedIn = false
@@ -46,13 +56,17 @@ final class AuthService: NSObject, ObservableObject {
     // MARK: - Session restore
 
     private func restoreSession() {
-        guard
-            let token = KeychainService.load(),
-            let user = (try? modelContext.fetch(FetchDescriptor<User>()))?.first
-        else { return }
-        api.authToken = token
-        currentUserID = user.id
-        isSignedIn = true
+        guard let token = KeychainService.load() else { return }
+        do {
+            guard let user = try modelContext.fetch(FetchDescriptor<User>()).first else { return }
+            api.authToken = token
+            currentUserID = user.id
+            isSignedIn = true
+        } catch {
+            // SwiftData unavailable (e.g. schema migration failure after update).
+            // JWT exists but we can't read the user record — force re-auth.
+            self.error = "Could not restore your session. Please sign in again."
+        }
     }
 }
 
@@ -77,7 +91,7 @@ extension AuthService: ASAuthorizationControllerDelegate {
                 let resp = try await api.signInWithApple(idToken: idToken)
 
                 // Store JWT in Keychain — never in SwiftData/SQLite.
-                KeychainService.save(resp.token)
+                try KeychainService.save(resp.token)
                 api.authToken = resp.token
 
                 // Persist only the stable user ID in SwiftData.
@@ -88,6 +102,14 @@ extension AuthService: ASAuthorizationControllerDelegate {
 
                 currentUserID = resp.userId
                 isSignedIn = true
+            } catch let urlError as URLError {
+                self.error = urlError.code == .notConnectedToInternet
+                    ? "No network connection. Check your internet and try again."
+                    : "Could not reach the server. Please try again."
+            } catch VelaError.httpError(let code) where (500..<600).contains(code) {
+                self.error = "The server is temporarily unavailable. Please try again in a moment."
+            } catch VelaError.httpError {
+                self.error = "Sign in was rejected. Please try again or contact support."
             } catch {
                 self.error = "Sign in failed. Please try again."
             }
