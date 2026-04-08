@@ -79,16 +79,22 @@ final class FeedService: ObservableObject {
 
     // MARK: - Private
 
-    /// Upserts DTOs into SwiftData by contentHash. Returns the upserted Article objects.
+    /// Upserts DTOs into SwiftData by contentHash, with a legacy fallback to id for
+    /// rows persisted before contentHash stored the real server hash.
     @discardableResult
     private func upsert(dtos: [APIClient.ArticleDTO]) throws -> [Article] {
         var result: [Article] = []
         for dto in dtos {
             let existing = try modelContext.fetch(
-                FetchDescriptor<Article>(predicate: #Predicate { $0.contentHash == dto.contentHash })
+                FetchDescriptor<Article>(
+                    predicate: #Predicate {
+                        $0.contentHash == dto.contentHash || $0.id == dto.id
+                    }
+                )
             ).first
 
             if let existing {
+                existing.contentHash = dto.contentHash
                 existing.title = dto.title
                 existing.canonicalURL = dto.canonicalURL
                 existing.sourceDomain = dto.sourceDomain

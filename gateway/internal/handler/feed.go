@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,6 +16,10 @@ import (
 	"github.com/colehellman/vela-pulse/gateway/internal/middleware"
 	"github.com/colehellman/vela-pulse/gateway/internal/snapshot"
 )
+
+// errCursorNotFound is returned by snapshotOffset when afterID is not present in the
+// snapshot. The caller maps this to 410 Gone so the iOS client retries from page 1.
+var errCursorNotFound = errors.New("cursor not found in snapshot")
 
 const (
 	defaultPageSize = 20
@@ -107,8 +112,9 @@ func (h *FeedHandler) buildFeed(ctx context.Context, userID string, limit int) (
 	if userID != "" {
 		userArticles, err = h.fetchUserArticles(ctx, userID)
 		if err != nil {
-			h.log.Warn("user articles fetch failed", zap.String("user_id", userID), zap.Error(err))
-			// Non-fatal: degrade to global-only feed.
+			// Non-fatal: degrade to global-only feed. Log at Error so outages page.
+			h.log.Error("user articles fetch failed, degrading to global-only feed",
+				zap.String("user_id", userID), zap.Error(err))
 		}
 	}
 
@@ -134,15 +140,20 @@ func loadGlobalArticlesWithFallback(
 ) ([]feed.Article, error) {
 	global, err := loadCache()
 	if err != nil {
-		log.Warn("global cache load failed, falling back to postgres", zap.Error(err))
-		return fallback()
-	}
-	if global != nil {
+		log.Error("global cache load failed, falling back to postgres", zap.Error(err))
+	} else if global != nil {
 		return global, nil
+	} else {
+		log.Info("global cache miss, falling back to postgres")
 	}
 
-	log.Info("global cache miss, falling back to postgres")
-	return fallback()
+	// Reach here on cache error or cache miss. Try Postgres; degrade to empty on failure.
+	articles, fbErr := fallback()
+	if fbErr != nil {
+		log.Error("postgres fallback failed, degrading to empty global set", zap.Error(fbErr))
+		return nil, nil
+	}
+	return articles, nil
 }
 
 func (h *FeedHandler) fetchGlobalArticles(ctx context.Context) ([]feed.Article, error) {
@@ -210,12 +221,14 @@ func (h *FeedHandler) serveFromSnapshot(ctx context.Context, w http.ResponseWrit
 		return
 	}
 	if err != nil {
+		h.log.Error("snapshot redis GET failed", zap.String("snap_id", snapID), zap.Error(err))
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
 
 	var all []feed.Article
 	if err := json.Unmarshal(b, &all); err != nil {
+		h.log.Error("snapshot unmarshal failed", zap.String("snap_id", snapID), zap.Error(err))
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		return
 	}
@@ -229,7 +242,8 @@ func (h *FeedHandler) serveFromSnapshot(ctx context.Context, w http.ResponseWrit
 
 	offset, err := snapshotOffset(all, afterID)
 	if err != nil {
-		http.Error(w, "invalid cursor", http.StatusBadRequest)
+		// Cursor not in snapshot — snapshot was rebuilt since page 1. Force client to re-fetch.
+		http.Error(w, "snapshot expired", http.StatusGone)
 		return
 	}
 
@@ -276,7 +290,9 @@ func (h *FeedHandler) writeResponse(w http.ResponseWriter, articles []feed.Artic
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp) //nolint:errcheck
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		h.log.Warn("write feed response", zap.Error(err))
+	}
 }
 
 // paginate returns a slice of articles starting at offset.
@@ -297,5 +313,5 @@ func snapshotOffset(articles []feed.Article, afterID string) (int, error) {
 			return i + 1, nil
 		}
 	}
-	return 0, http.ErrNoLocation
+	return 0, errCursorNotFound
 }
