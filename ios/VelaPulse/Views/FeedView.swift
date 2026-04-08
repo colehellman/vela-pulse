@@ -15,7 +15,7 @@ struct FeedView: View {
                 if feed.articles.isEmpty && feed.isLoading {
                     ProgressView("Loading feed…")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if feed.articles.isEmpty {
+                } else if feed.articles.isEmpty && feed.error == nil {
                     ContentUnavailableView(
                         "No articles yet",
                         systemImage: "newspaper",
@@ -26,7 +26,6 @@ struct FeedView: View {
                         ForEach(feed.articles, id: \.id) { article in
                             ArticleRowView(article: article)
                                 .onAppear {
-                                    // Trigger next-page load when near the end.
                                     if article.id == feed.articles.last?.id {
                                         Task { await feed.loadMore() }
                                     }
@@ -61,6 +60,25 @@ struct FeedView: View {
                 if feed.articles.isEmpty {
                     await feed.refresh()
                 }
+            }
+            // Feed error alert
+            .alert("Feed unavailable", isPresented: Binding(
+                get: { feed.error != nil },
+                set: { if !$0 { feed.error = nil } }
+            )) {
+                Button("Retry") { Task { await feed.refresh() } }
+                Button("Dismiss", role: .cancel) { feed.error = nil }
+            } message: {
+                Text(feed.error?.localizedDescription ?? "Could not load articles.")
+            }
+            // Auth error alert
+            .alert("Sign in failed", isPresented: Binding(
+                get: { auth.error != nil },
+                set: { if !$0 { auth.error = nil } }
+            )) {
+                Button("OK", role: .cancel) { auth.error = nil }
+            } message: {
+                Text(auth.error ?? "Please try again.")
             }
         }
     }

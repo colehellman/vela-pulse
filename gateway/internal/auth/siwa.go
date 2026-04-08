@@ -7,6 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/big"
 	"net/http"
 	"sync"
@@ -36,7 +37,8 @@ var (
 	jwksTTL     = 24 * time.Hour
 )
 
-const appleJWKSURL = "https://appleid.apple.com/auth/keys"
+// appleJWKSURL is a var so tests can point it at a local httptest.Server.
+var appleJWKSURL = "https://appleid.apple.com/auth/keys"
 
 // VerifyAppleToken validates an Apple id_token and returns the stable claims.
 // It fetches Apple's JWKS on first call (or after TTL) and caches the keys.
@@ -112,6 +114,10 @@ func refreshJWKS() error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("JWKS endpoint returned HTTP %d", resp.StatusCode)
+	}
+
 	var jwks struct {
 		Keys []struct {
 			Kid string `json:"kid"`
@@ -127,9 +133,14 @@ func refreshJWKS() error {
 	for _, k := range jwks.Keys {
 		pub, err := rsaPublicKeyFromJWK(k.N, k.E)
 		if err != nil {
+			log.Printf("siwa: skipping malformed JWKS key kid=%q: %v", k.Kid, err)
 			continue
 		}
 		keys[k.Kid] = pub
+	}
+
+	if len(keys) == 0 && len(jwks.Keys) > 0 {
+		return fmt.Errorf("all %d JWKS keys failed to parse", len(jwks.Keys))
 	}
 
 	jwksMu.Lock()

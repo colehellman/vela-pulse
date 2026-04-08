@@ -35,12 +35,22 @@ async def _run() -> None:
     rdb = aioredis.from_url(settings.redis_url, decode_responses=True)
 
     async with BrowserPool() as pool:
-        # Tier 1 context — no proxy (home IP)
-        ctx_t1 = await pool.new_context(proxy_url=None)
+        # Tier 1 context — home IP (or first configured Tier 1 proxy).
+        t1_proxy = settings.tier1_proxy_list[0] if settings.tier1_proxy_list else None
+        ctx_t1 = await pool.new_context(proxy_url=t1_proxy)
+
+        # Tier 2 context — residential proxy (first configured URL, if any).
+        # Each site gets the context matching its tier at startup. If a domain is
+        # demoted from Tier 2 → Tier 1 at runtime (tracked in Redis), the proxy
+        # change takes effect on the next scraper restart.
+        t2_proxy = settings.tier2_proxy_list[0] if settings.tier2_proxy_list else None
+        ctx_t2 = await pool.new_context(proxy_url=t2_proxy)
 
         sites = [
             ESPNSite(config=ESPN_CONFIG, context=ctx_t1),
-            # Add more sites here as Phase 2 matures
+            # Add more sites here as Phase 2 matures.
+            # Tier 2 sites use ctx_t2:
+            #   SomeSite(config=SOME_CONFIG, context=ctx_t2),
         ]
 
         orchestrator = TierOrchestrator(rdb=rdb, sites=sites, settings=settings)
@@ -65,6 +75,7 @@ async def _run() -> None:
             pass
 
         await ctx_t1.close()
+        await ctx_t2.close()
 
     await rdb.aclose()
     log.info("scraper stopped")

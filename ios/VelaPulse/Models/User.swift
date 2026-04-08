@@ -2,22 +2,15 @@ import Foundation
 import SwiftData
 
 /// Local representation of the authenticated user.
-/// Stored in SwiftData so auth state persists across launches.
+/// Only the stable user ID is persisted in SwiftData.
+/// The JWT is stored in the Keychain via KeychainService — never in SQLite.
 @Model
 final class User {
-    @Attribute(.unique) var id: String       // internal UUID from gateway
-    var token: String                         // internal JWT (stored here for restore; Keychain preferred for production)
-    var tokenExpiresAt: Date
+    @Attribute(.unique) var id: String  // internal UUID from gateway
     var createdAt: Date
 
-    init(id: String, token: String, tokenExpiresAt: Date) {
+    init(id: String) {
         self.id = id
-        self.token = token
-        self.tokenExpiresAt = tokenExpiresAt
         self.createdAt = .now
-    }
-
-    var isTokenValid: Bool {
-        tokenExpiresAt > Date()
     }
 }
