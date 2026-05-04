@@ -1,0 +1,429 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FF0000010000000000000001 /* VelaPulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000001 /* VelaPulseApp.swift */; };
+		FF0000010000000000000002 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000002 /* AppEnvironment.swift */; };
+		FF0000010000000000000003 /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000003 /* AppRootView.swift */; };
+		FF0000010000000000000004 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000004 /* Article.swift */; };
+		FF0000010000000000000005 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000005 /* User.swift */; };
+		FF0000010000000000000006 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000006 /* APIClient.swift */; };
+		FF0000010000000000000007 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000007 /* AuthService.swift */; };
+		FF0000010000000000000008 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000008 /* FeedService.swift */; };
+		FF0000010000000000000009 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000009 /* KeychainService.swift */; };
+		FF000001000000000000000A /* FreezeWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000A /* FreezeWindow.swift */; };
+		FF000001000000000000000B /* CursorCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000B /* CursorCoder.swift */; };
+		FF000001000000000000000C /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000C /* FeedView.swift */; };
+		FF000001000000000000000D /* ArticleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000D /* ArticleRowView.swift */; };
+		FF000001000000000000000E /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000E /* SafariView.swift */; };
+		FF000001000000000000000F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE000001000000000000000F /* Assets.xcassets */; };
+		FF0000010000000000000010 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = EE0000010000000000000010 /* PrivacyInfo.xcprivacy */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA0000010000000000000001 /* VelaPulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VelaPulse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE0000010000000000000001 /* VelaPulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelaPulseApp.swift; sourceTree = "<group>"; };
+		EE0000010000000000000002 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		EE0000010000000000000003 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
+		EE0000010000000000000004 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		EE0000010000000000000005 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		EE0000010000000000000006 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		EE0000010000000000000007 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		EE0000010000000000000008 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
+		EE0000010000000000000009 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		EE000001000000000000000A /* FreezeWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreezeWindow.swift; sourceTree = "<group>"; };
+		EE000001000000000000000B /* CursorCoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorCoder.swift; sourceTree = "<group>"; };
+		EE000001000000000000000C /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		EE000001000000000000000D /* ArticleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowView.swift; sourceTree = "<group>"; };
+		EE000001000000000000000E /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		EE000001000000000000000F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE0000010000000000000010 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		EE0000010000000000000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE0000010000000000000012 /* VelaPulse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VelaPulse.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BB0000010000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA0000010000000000000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000010000000000000001 /* VelaPulse.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA0000010000000000000003 /* MainGroup */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000010000000000000001 /* VelaPulse */,
+				AA0000010000000000000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000001 /* VelaPulse */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000010000000000000002 /* App */,
+				DD0000010000000000000003 /* Models */,
+				DD0000010000000000000004 /* Services */,
+				DD0000010000000000000005 /* Utilities */,
+				DD0000010000000000000006 /* Views */,
+				EE000001000000000000000F /* Assets.xcassets */,
+				EE0000010000000000000011 /* Info.plist */,
+				EE0000010000000000000010 /* PrivacyInfo.xcprivacy */,
+				EE0000010000000000000012 /* VelaPulse.entitlements */,
+			);
+			path = VelaPulse;
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000002 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000010000000000000001 /* VelaPulseApp.swift */,
+				EE0000010000000000000002 /* AppEnvironment.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000003 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000010000000000000004 /* Article.swift */,
+				EE0000010000000000000005 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000004 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000010000000000000006 /* APIClient.swift */,
+				EE0000010000000000000007 /* AuthService.swift */,
+				EE0000010000000000000008 /* FeedService.swift */,
+				EE0000010000000000000009 /* KeychainService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000005 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				EE000001000000000000000A /* FreezeWindow.swift */,
+				EE000001000000000000000B /* CursorCoder.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		DD0000010000000000000006 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EE0000010000000000000003 /* AppRootView.swift */,
+				EE000001000000000000000C /* FeedView.swift */,
+				EE000001000000000000000D /* ArticleRowView.swift */,
+				EE000001000000000000000E /* SafariView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA0000010000000000000004 /* VelaPulse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC0000010000000000000004 /* Build configuration list for PBXNativeTarget "VelaPulse" */;
+			buildPhases = (
+				BB0000010000000000000001 /* Sources */,
+				BB0000010000000000000002 /* Resources */,
+				BB0000010000000000000003 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VelaPulse;
+			productName = VelaPulse;
+			productReference = AA0000010000000000000001 /* VelaPulse.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA0000010000000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					AA0000010000000000000004 = {
+						CreatedOnToolsVersion = 16.0;
+						SystemCapabilities = {
+							com.apple.Sign_In_with_Apple = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = CC0000010000000000000001 /* Build configuration list for PBXProject "VelaPulse" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA0000010000000000000003 /* MainGroup */;
+			productRefGroup = AA0000010000000000000002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA0000010000000000000004 /* VelaPulse */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BB0000010000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF000001000000000000000F /* Assets.xcassets in Resources */,
+				FF0000010000000000000010 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BB0000010000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF0000010000000000000001 /* VelaPulseApp.swift in Sources */,
+				FF0000010000000000000002 /* AppEnvironment.swift in Sources */,
+				FF0000010000000000000003 /* AppRootView.swift in Sources */,
+				FF0000010000000000000004 /* Article.swift in Sources */,
+				FF0000010000000000000005 /* User.swift in Sources */,
+				FF0000010000000000000006 /* APIClient.swift in Sources */,
+				FF0000010000000000000007 /* AuthService.swift in Sources */,
+				FF0000010000000000000008 /* FeedService.swift in Sources */,
+				FF0000010000000000000009 /* KeychainService.swift in Sources */,
+				FF000001000000000000000A /* FreezeWindow.swift in Sources */,
+				FF000001000000000000000B /* CursorCoder.swift in Sources */,
+				FF000001000000000000000C /* FeedView.swift in Sources */,
+				FF000001000000000000000D /* ArticleRowView.swift in Sources */,
+				FF000001000000000000000E /* SafariView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CC0000010000000000000002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CC0000010000000000000003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CC0000010000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VelaPulse/VelaPulse.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VelaPulse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.pulse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		CC0000010000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VelaPulse/VelaPulse.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VelaPulse/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vela.pulse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CC0000010000000000000001 /* Build configuration list for PBXProject "VelaPulse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC0000010000000000000002 /* Debug */,
+				CC0000010000000000000003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC0000010000000000000004 /* Build configuration list for PBXNativeTarget "VelaPulse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC0000010000000000000005 /* Debug */,
+				CC0000010000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = AA0000010000000000000000 /* Project object */;
+}
