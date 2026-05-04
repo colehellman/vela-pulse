@@ -7,7 +7,7 @@ Tests are written against the interface; implementation must satisfy them.
 
 import pytest
 from datetime import datetime, timezone
-from unittest.mock import AsyncMock, MagicMock, call, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from scraper.config import Settings
 from scraper.publisher import RawArticle

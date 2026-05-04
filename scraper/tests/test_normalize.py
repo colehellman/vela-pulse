@@ -8,7 +8,6 @@ dedup failures across the entire pipeline.
 
 import hashlib
 
-import pytest
 
 from scraper.normalize import content_hash, normalize_lead
 
