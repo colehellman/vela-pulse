@@ -5,7 +5,7 @@ Tests are written first; proxy.py is verified against them.
 """
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 
 # ---------------------------------------------------------------------------
